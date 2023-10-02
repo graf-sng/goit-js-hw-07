@@ -8,10 +8,16 @@ galleryList.addEventListener("click", handlerClick);
 function createGallery(arr) {
   return arr
     .map(
-      ({ preview, description }, idx) => `
-        <li class="gallery__item js-gallery__item" data-id="${idx}">
-          <img class="gallery__image" src="${preview}" alt="${description}">
-        </li>`
+      ({ original, preview, description }, idx) => `
+      <li class="gallery__item" data-id="${idx}">
+        <a class="gallery__link" href="${original}" style="pointer-events: none">
+          <img
+            class="gallery__image" 
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}">
+        </a>
+      </li>`
     )
     .join("");
 }
@@ -20,7 +26,7 @@ function handlerClick(evt) {
   if (evt.currentTarget === evt.target) {
     return;
   }
-  const currentPicture = evt.target.closest(".js-gallery__item");
+  const currentPicture = evt.target.closest(".gallery__item");
   const pictureId = Number(currentPicture.dataset.id);
   const { original: pictureSrc, description: pictureText } =
     galleryItems[pictureId];
